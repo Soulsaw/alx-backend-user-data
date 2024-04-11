@@ -5,8 +5,7 @@ import re
 """Import doc in python"""
 
 
-def filter_datum(fields: List[str], redaction: str,
-                 message: str, separator: str):
-    return re.sub(r'({})[^{}]+'.format(
-        '|'.join(field + '=' for field in fields),
-        separator), r'\1{}'.format(redaction), message)
+def filter_datum(fds: List[str], redact: str, mes: str, sep: str):
+    """Doc of the filter function"""
+    return re.sub(r'({})[^{}]+'.format( '|'.join(f + '=' for f in fds),
+                                       sep), r'\1{}'.format(redact), mes)
