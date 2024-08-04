@@ -36,6 +36,10 @@ class RedactingFormatter(logging.Formatter):
 
 def get_logger() -> logging.Logger:
     """This function compute"""
-    logging.basicConfig(stream=RedactingFormatter, level=logging.INFO)
     logger = logging.getLogger('user_data')
+    logger.setLevel(logging.INFO)
+    handler = logging.StreamHandler()
+    formater = RedactingFormatter.FORMAT
+    handler.setFormatter(formater)
+    logger.addHandler(handler)
     return logger
