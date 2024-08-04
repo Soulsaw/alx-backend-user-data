@@ -4,6 +4,7 @@ import re
 from typing import List
 import logging
 """Doc of the import"""
+PII_FIELDS = ('email', 'phone', 'ssn', 'password', 'ip')
 
 
 def filter_datum(fields: List[str], redaction: str,
@@ -31,3 +32,8 @@ class RedactingFormatter(logging.Formatter):
         record.msg = filter_datum(self.fields, self.REDACTION,
                                   record.getMessage(), self.SEPARATOR)
         return super(RedactingFormatter, self).format(record)
+
+
+def get_logger() -> logging.Logger:
+    """This function compute"""
+    logging.basicConfig(stream=RedactingFormatter, level=logging.INFO)
