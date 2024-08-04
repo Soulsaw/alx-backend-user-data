@@ -3,7 +3,7 @@ import bcrypt
 """Import the modules"""
 
 
-def hash_password(password: str) -> str:
+def hash_password(password: str) -> bytes:
     """This function a hashed password"""
     hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
     return hashed
