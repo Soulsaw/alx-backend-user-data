@@ -50,10 +50,10 @@ def get_logger() -> logging.Logger:
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """This function permit to connect to mysql database"""
-    db_username = os.getenv("PERSONAL_DATA_DB_USERNANE")
-    db_password = os.getenv("PERSONAL_DATA_DB_PASSWORD")
-    db_host = os.getenv("PERSONAL_DATA_DB_HOST")
-    db_name = os.getenv("PERSONAL_DATA_DB_NAME")
+    db_username = os.getenv("PERSONAL_DATA_DB_USERNANE", 'root')
+    db_password = os.getenv("PERSONAL_DATA_DB_PASSWORD", '')
+    db_host = os.getenv("PERSONAL_DATA_DB_HOST", 'localhost')
+    db_name = os.getenv("PERSONAL_DATA_DB_NAME", 'my_db')
     connection = mysql.connector.connection.MySQLConnection(
         user=db_username,
         password=db_password,
@@ -61,3 +61,24 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         database=db_name
     )
     return connection
+
+
+def main():
+    """This function permit to fetch data from the database"""
+    logger = get_logger()
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute('select * from users;')
+    rows = cursor.fetchall()
+    colums = [column[0] for column in cursor.description]
+    all_rows = [dict(zip(colums, row)) for row in rows]
+    for row in all_rows:
+        filter = ';'.join(f"{key}={value}" for key, value in row.items())
+        logger.info(filter)
+    cursor.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    """Implementing the main"""
+    main()
