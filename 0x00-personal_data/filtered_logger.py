@@ -38,8 +38,9 @@ def get_logger() -> logging.Logger:
     """This function compute"""
     logger = logging.getLogger('user_data')
     logger.setLevel(logging.INFO)
+    logger.propagate = False
     handler = logging.StreamHandler()
-    formater = RedactingFormatter.FORMAT
+    formater = RedactingFormatter
     handler.setFormatter(formater)
     logger.addHandler(handler)
     return logger
