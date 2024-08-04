@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""This allow us to run the file like command"""
 import bcrypt
 """Import the modules"""
 
