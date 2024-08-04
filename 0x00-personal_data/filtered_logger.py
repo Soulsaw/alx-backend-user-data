@@ -4,7 +4,7 @@ import re
 from typing import List
 import logging
 """Doc of the import"""
-PII_FIELDS = ('email', 'phone', 'ssn', 'password', 'ip')
+PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
 
 
 def filter_datum(fields: List[str], redaction: str,
