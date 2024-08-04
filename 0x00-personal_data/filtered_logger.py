@@ -3,7 +3,7 @@
 import re
 from typing import List
 import logging
-from mysql.connector import connect
+import mysql.connector
 import os
 """Doc of the import"""
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
@@ -48,15 +48,16 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db():
+def get_db() -> mysql.connector:
     """This function permit to connect to mysql database"""
-    USERNANE = os.getenv("PERSONAL_DATA_DB_USERNANE")
-    PASSWORD = os.getenv("PERSONAL_DATA_DB_PASSWORD")
-    HOST = os.getenv("PERSONAL_DATA_DB_HOST")
-    DB_NAME = os.getenv("PERSONAL_DATA_DB_NAME")
-    try:
-        conn = connect(host=HOST, database=DB_NAME,
-                       user=USERNANE, password=PASSWORD)
-        return conn
-    except Exception:
-        pass
+    db_username = os.getenv("PERSONAL_DATA_DB_USERNANE")
+    db_password = os.getenv("PERSONAL_DATA_DB_PASSWORD")
+    db_host = os.getenv("PERSONAL_DATA_DB_HOST")
+    db_name = os.getenv("PERSONAL_DATA_DB_NAME")
+    connection = mysql.connector.connect(
+        user=db_username,
+        password=db_password,
+        host=db_host,
+        database=db_name
+    )
+    return connection
