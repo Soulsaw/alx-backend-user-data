@@ -61,3 +61,18 @@ class BasicAuth(Auth):
             if user.is_valid_password(user_pwd):
                 return user
         return None
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """This method override the initial class method"""
+        allow_head = self.authorization_header(req=request)
+        if allow_head is None:
+            return
+        extract_head = self.extract_base64_authorization_header(allow_head)
+        decode_head = self.decode_base64_authorization_header(extract_head)
+        (email, pwd) = self.extract_user_credentials(decode_head)
+        if email is None or pwd is None:
+            return
+        user = self.user_object_from_credentials(email, pwd)
+        if user is None:
+            return
+        return user
