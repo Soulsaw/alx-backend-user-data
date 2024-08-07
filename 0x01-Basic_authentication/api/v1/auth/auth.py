@@ -2,6 +2,7 @@
 """Doc of the auth module"""
 from flask import request
 from typing import List, TypeVar
+import re
 """All the import"""
 
 
@@ -18,6 +19,10 @@ class Auth:
         for ex_paths in excluded_paths:
             ex_path = ex_paths.rstrip('/') + '/'
             if ex_path == n_path:
+                return False
+        for ex_path in excluded_paths:
+            expr = ex_path.rstrip('*') + '.*'
+            if re.match(expr, path):
                 return False
         return True
 
