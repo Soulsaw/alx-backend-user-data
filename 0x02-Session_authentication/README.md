@@ -7,3 +7,7 @@
 Create a SessionAuth that inherit from Auth and must stay empty
 ## Task 2
 ### Create a session
+In this task we create a new session id the current user
+## Task 3
+### User ID for Session ID 
+This function permit to retrieve a user_id with the giving session_id or None
