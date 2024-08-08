@@ -48,12 +48,15 @@ def forbidden(error) -> str:
 @app.before_request
 def before_request():
     """Handle the before request"""
-    url = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+    url = ['/api/v1/status/', '/api/v1/unauthorized/',
+           '/api/v1/forbidden/', '/api/v1/auth_session/login/']
     if auth is None:
         return
     if auth.require_auth(request.path, url) is False:
         return
-    if auth.authorization_header(request.path) is None:
+    if auth.authorization_header(request.path) is None or\
+        auth.session_cookie(request) is\
+            None:
         abort(401)
     if auth.current_user(request.path) is None:
         abort(403)
