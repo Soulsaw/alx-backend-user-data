@@ -4,6 +4,7 @@
 from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models.user import User
+from api.v1.auth.basic_auth import BasicAuth
 """The require import"""
 
 
@@ -17,6 +18,16 @@ def view_all_users() -> str:
     return jsonify(all_users)
 
 
+@app_views.route('/users/me', methods=['GET'], strict_slashes=False)
+def view_authenticate_user() -> str:
+    """ GET /api/v1/users/me
+    Return:
+      - return the authenticated User object
+    """
+    user = request.current_user
+    return jsonify(user.to_json())
+
+
 @app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
 def view_one_user(user_id: str = None) -> str:
     """ GET /api/v1/users/:id
@@ -28,6 +39,12 @@ def view_one_user(user_id: str = None) -> str:
     """
     if user_id is None:
         abort(404)
+    if user_id == 'me':
+        if request.current_user is None:
+            abort(404)
+        else:
+            user = request.current_user
+            return jsonify(user.to_json())
     user = User.get(user_id)
     if user is None:
         abort(404)
