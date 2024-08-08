@@ -5,3 +5,5 @@
 ## Task 1
 ### Empty Session
 Create a SessionAuth that inherit from Auth and must stay empty
+## Task 2
+### Create a session
