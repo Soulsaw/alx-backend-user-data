@@ -42,7 +42,7 @@ class Auth:
         """This function return the cookie value"""
         if request is None:
             return None
-        cookie_value = request.headers.get(session_name, None)
+        cookie_value = request.headers.get("Cookie", None)
         if cookie_value is None:
             return None
         cookies = cookie_value.split('=')
