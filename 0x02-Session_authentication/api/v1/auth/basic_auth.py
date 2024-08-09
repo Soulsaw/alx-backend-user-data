@@ -64,7 +64,7 @@ class BasicAuth(Auth):
 
     def current_user(self, request=None) -> TypeVar('User'):
         """This method override the initial class method"""
-        allow_head = self.authorization_header(req=request)
+        allow_head = self.authorization_header(request)
         if allow_head is None:
             return
         extract_head = self.extract_base64_authorization_header(allow_head)

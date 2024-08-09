@@ -5,6 +5,7 @@ from typing import List, TypeVar
 import re
 import os
 """All the import"""
+session_name = os.getenv('SESSION_NAME')
 
 
 class Auth:
@@ -27,9 +28,9 @@ class Auth:
                 return False
         return True
 
-    def authorization_header(self, req=None) -> str:
+    def authorization_header(self, request=None) -> str:
         """This function permit to add an authorization header"""
-        if req is None:
+        if request is None:
             return None
         return request.headers.get('Authorization', None)
 
@@ -41,6 +42,10 @@ class Auth:
         """This function return the cookie value"""
         if request is None:
             return None
-        session_name = os.getenv('SESSION_NAME')
-        cookie_value = request.cookies.get(session_name, None)
-        return cookie_value
+        cookie_value = request.headers.get(session_name, None)
+        if cookie_value is None:
+            return None
+        cookies = cookie_value.split('=')
+        if cookies[0] != session_name:
+            return None
+        return cookies[1] if len(cookies) == 2 else None
