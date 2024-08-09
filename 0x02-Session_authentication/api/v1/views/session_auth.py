@@ -2,14 +2,14 @@
 """ Module of Users views
 """
 from api.v1.views import app_views
-from flask import jsonify, request
+from flask import jsonify, request, abort
 from models.user import User
 import os
 """The require import"""
 
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
-def session_auth():
+def session_login():
     """This function return"""
     email = request.form.get('email', None)
     pwd = request.form.get('password', None)
@@ -28,3 +28,15 @@ def session_auth():
     session_name = os.getenv("SESSION_NAME")
     output.set_cookie(session_name, cookie_token)
     return output
+
+
+@app_views.route('/auth_session/logout', methods=['DELETE'],
+                 strict_slashes=False)
+def session_logout():
+    """This method permit to logout the current user"""
+    from api.v1.app import auth
+    destroy_session = auth.destroy_session(request)
+    if destroy_session is False:
+        abort(404)
+    else:
+        return jsonify({}), 200
