@@ -19,6 +19,7 @@ class SessionDBAuth(SessionExpAuth):
 
     def user_id_for_session_id(self, session_id=None):
         """Retrieve the user_id"""
+        UserSession.load_from_file()
         user_id = super().user_id_for_session_id(session_id)
         return user_id
 
