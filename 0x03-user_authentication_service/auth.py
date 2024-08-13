@@ -70,4 +70,4 @@ def _generate_uuid() -> str:
     Return:
             str: uuid in a string format
     """
-    return uuid.uuid4()
+    return str(uuid.uuid4())
