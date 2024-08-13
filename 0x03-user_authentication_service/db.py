@@ -30,14 +30,29 @@ class DB:
         return self.__session
 
     def add_user(self, email: str, hashed_password: str) -> User:
-        """Implement the user store method"""
+        """Add a new user to the database and return the User object
+
+        Args:
+            email (str): The email of the user
+            hashed_password (str): The hashed password of the user
+
+        Returns:
+            User: The created user object
+        """
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
         return user
 
     def find_user_by(self, **kwargs: dict) -> User:
-        """Define the find_user_by method"""
+        """Find an existing user with a arbitrary keyword
+
+        Args:
+                kwargs (dict): A dictionary with the argument
+
+        Returns:
+                User: The match user or None
+        """
         try:
             query = self._session.query(User)
             for key, value in kwargs.items():
