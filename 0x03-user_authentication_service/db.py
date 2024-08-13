@@ -36,7 +36,7 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs: dict) -> User:
         """Define the find_user_by method"""
         try:
             query = self._session.query(User)
