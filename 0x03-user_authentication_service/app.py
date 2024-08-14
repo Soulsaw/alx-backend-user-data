@@ -41,7 +41,7 @@ def login():
             abort(401)
 
 
-@app.route('/sessions', method='DELETE', strict_slashes=False)
+@app.route('/sessions', methods=['DELETE'], strict_slashes=False)
 def logout():
     """Implement the logout method"""
     if request.method == 'DELETE':
